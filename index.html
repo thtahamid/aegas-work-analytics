@@ -162,8 +162,23 @@ body {
 .collapse-inner { padding-top: 12px; }
 
 /* ── SVG Flow Diagram ── */
-.flow-svg { width: 100%; overflow: visible; }
+.flow-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 -24px;
+  padding: 0 24px 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.flow-wrap::-webkit-scrollbar { height: 6px; }
+.flow-wrap::-webkit-scrollbar-track { background: transparent; }
+.flow-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.flow-svg { overflow: visible; display: block; }
 .flow-svg text { font-family: 'Inter', sans-serif; }
+/* Lock each SVG to its intrinsic pixel width so nodes never shrink */
+.flow-svg.flow-branch  { width: 960px; min-width: 960px; height: 200px; }
+.flow-svg.flow-session { width: 960px; min-width: 960px; height: 260px; }
+.flow-svg.flow-rebase  { width: 960px; min-width: 960px; height: 130px; }
 
 /* Animated particles on SVG paths */
 @keyframes moveAlongPath {
@@ -201,10 +216,9 @@ body {
 .pill-muted { color:var(--muted);background:rgba(95,99,110,0.15); }
 .pill-purple { color:var(--purple);background:var(--purple-light); }
 
-/* ── Session rows (compact) ── */
+/* ── Session rows (compact, wrap on small screens) ── */
 .session-row {
-  display: grid;
-  grid-template-columns: 32px 90px 60px 1fr 2fr;
+  display: flex;
   align-items: center;
   gap: 12px;
   background: var(--bg-input);
@@ -214,43 +228,44 @@ body {
   padding: 12px 16px;
   margin-bottom: 5px;
   font-size: 13px;
+  flex-wrap: wrap;
   transition: background-color 150ms ease, border-color 150ms ease;
 }
 @media (hover: hover) {
   .session-row:hover { background: var(--surface); border-left-color: var(--accent); }
 }
 .active-dot {
-  width: 8px; height: 8px; border-radius: 50%;
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
   animation: pulse 2s ease-in-out infinite;
 }
 @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
 .active-dot.green { background:var(--accent);box-shadow:0 0 8px var(--accent); }
 .active-dot.yellow { background:var(--orange);box-shadow:0 0 8px var(--orange); }
 .active-dot.red { background:var(--status-error);box-shadow:0 0 8px var(--status-error); }
-.mono { font-family:'SF Mono','Fira Code',monospace;font-size:12px; }
-.session-branch { font-weight: 600; font-size: 12px; }
-.session-desc { color: var(--text-secondary); font-size: 12px; }
+.mono { font-family:'SF Mono','Fira Code',monospace;font-size:12px;flex-shrink:0; }
+.session-branch { font-weight: 600; font-size: 12px; flex-shrink: 0; }
+.session-desc { color: var(--text-secondary); font-size: 12px; flex: 1; min-width: 120px; }
 
-/* ── Worktree list (compact rows) ── */
+/* ── Worktree list (compact rows, wrap on small screens) ── */
 .wt-row {
-  display: grid;
-  grid-template-columns: 1fr 2fr auto;
+  display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   background: var(--bg-input);
   border: 1px solid var(--border-light);
   border-left: 3px solid transparent;
   border-radius: 6px;
   padding: 12px 16px;
   margin-bottom: 5px;
+  flex-wrap: wrap;
   transition: background-color 150ms ease, border-color 150ms ease;
 }
 @media (hover: hover) {
   .wt-row:hover { background: var(--surface); border-left-color: var(--accent); }
 }
-.wt-name { font-size: 13px; font-weight: 600; word-break: break-all; }
-.wt-desc { font-size: 12px; color: var(--text-secondary); }
-.wt-pills { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+.wt-name { font-size: 13px; font-weight: 600; word-break: break-all; flex-shrink: 0; }
+.wt-desc { font-size: 12px; color: var(--text-secondary); flex: 1; min-width: 140px; }
+.wt-pills { display: flex; gap: 5px; flex-wrap: wrap; margin-left: auto; }
 
 /* ── Summary ── */
 .summary {
@@ -273,25 +288,12 @@ body {
 
 .timestamp { font-size: 11px; color: var(--muted); text-align: right; margin-top: 32px; }
 
-/* ── Responsive ── */
-@media (max-width: 900px) {
-  .session-row { grid-template-columns: 24px 70px 1fr; }
-  .session-row .hide-m { display: none; }
-  .wt-row { grid-template-columns: 1fr auto; }
-  .wt-row .hide-m { display: none; }
-}
+/* ── Responsive — sizes stay intact, layout wraps ── */
 @media (max-width: 640px) {
-  .page { padding: 20px 12px; }
-  .header h1 { font-size: 18px; }
-  .stat-strip { gap: 16px; padding: 14px 16px; }
-  .stat-num { font-size: 22px; }
-  .session-row { grid-template-columns: 24px 1fr; gap: 8px; padding: 10px 12px; }
-  .session-row .hide-s { display: none; }
-  .wt-row { grid-template-columns: 1fr; gap: 6px; padding: 10px 12px; }
-  .wt-row .hide-s { display: none; }
-  .wt-pills { justify-content: flex-start; }
+  .page { padding: 20px 14px; }
+  .stat-strip { gap: 20px; padding: 14px 16px; }
   .summary { padding: 16px; }
-  .flow-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .flow-wrap { margin: 0 -14px; padding: 0 14px 12px; }
 }
 </style>
 </head>
@@ -337,7 +339,7 @@ body {
     </button>
     <div class="collapse-body" data-open="true"><div class="collapse-inner">
       <div class="flow-wrap">
-        <svg class="flow-svg" viewBox="0 0 960 200" height="200">
+        <svg class="flow-svg flow-branch" viewBox="0 0 960 200">
           <defs>
             <!-- Arrow marker -->
             <marker id="arr" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
@@ -425,7 +427,7 @@ body {
     </button>
     <div class="collapse-body" data-open="true"><div class="collapse-inner">
       <div class="flow-wrap">
-        <svg class="flow-svg" viewBox="0 0 960 260" height="260">
+        <svg class="flow-svg flow-session" viewBox="0 0 960 260">
           <!-- Reuse defs from above are not inherited, redefine -->
           <defs>
             <marker id="a2" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
@@ -514,7 +516,7 @@ body {
     </button>
     <div class="collapse-body" data-open="true"><div class="collapse-inner">
       <div class="flow-wrap">
-        <svg class="flow-svg" viewBox="0 0 960 130" height="130">
+        <svg class="flow-svg flow-rebase" viewBox="0 0 960 130">
           <defs>
             <marker id="a3" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto">
               <path d="M0,0 L12,5 L0,10 L3,5 Z" fill="#2EC4A0" opacity="0.8"/>
@@ -582,65 +584,65 @@ body {
       <div class="session-row" style="border-left-color:var(--accent)">
         <div class="active-dot green"></div>
         <span class="mono" style="color:var(--cyan)">30148</span>
-        <span class="mono hide-m" style="color:var(--text-secondary)">s008</span>
+        <span class="mono" style="color:var(--text-secondary)">s008</span>
         <span class="session-branch" style="color:var(--accent)">paperclip-dev</span>
-        <span class="session-desc hide-m">Current interactive session &mdash; main repo</span>
+        <span class="session-desc">Current interactive session &mdash; main repo</span>
       </div>
 
       <div class="session-row" style="border-left-color:var(--status-error)">
         <div class="active-dot red"></div>
         <span class="mono" style="color:var(--cyan)">28328</span>
-        <span class="mono hide-m" style="color:var(--text-secondary)">s000</span>
+        <span class="mono" style="color:var(--text-secondary)">s000</span>
         <span class="session-branch" style="color:var(--status-error)">cla-94 <span class="pill pill-error">broken</span></span>
-        <span class="session-desc hide-m">Sub-agent &mdash; worktree dir deleted</span>
+        <span class="session-desc">Sub-agent &mdash; worktree dir deleted</span>
       </div>
 
       <div class="session-row" style="border-left-color:var(--orange)">
         <div class="active-dot yellow"></div>
         <span class="mono" style="color:var(--cyan)">13947</span>
-        <span class="mono hide-m" style="color:var(--text-secondary)">s001</span>
+        <span class="mono" style="color:var(--text-secondary)">s001</span>
         <span class="session-branch" style="color:var(--muted)">clawteam/fd1</span>
-        <span class="session-desc hide-m">Redesign-team agent &mdash; empty workspace</span>
+        <span class="session-desc">Redesign-team agent &mdash; empty workspace</span>
       </div>
 
       <div class="session-row" style="border-left-color:var(--orange)">
         <div class="active-dot yellow"></div>
         <span class="mono" style="color:var(--cyan)">26008</span>
-        <span class="mono hide-m" style="color:var(--text-secondary)">s007</span>
+        <span class="mono" style="color:var(--text-secondary)">s007</span>
         <span class="session-branch" style="color:var(--muted)">clawteam/fd1</span>
-        <span class="session-desc hide-m">Child process &mdash; same workspace as 13947</span>
+        <span class="session-desc">Child process &mdash; same workspace as 13947</span>
       </div>
 
       <div class="session-row" style="border-left-color:var(--orange)">
         <div class="active-dot yellow"></div>
         <span class="mono" style="color:var(--cyan)">14325</span>
-        <span class="mono hide-m" style="color:var(--text-secondary)">s003</span>
+        <span class="mono" style="color:var(--text-secondary)">s003</span>
         <span class="session-branch" style="color:var(--muted)">clawteam/fd2</span>
-        <span class="session-desc hide-m">Redesign-team agent &mdash; empty workspace</span>
+        <span class="session-desc">Redesign-team agent &mdash; empty workspace</span>
       </div>
 
       <div class="session-row" style="border-left-color:var(--orange)">
         <div class="active-dot yellow"></div>
         <span class="mono" style="color:var(--cyan)">14886</span>
-        <span class="mono hide-m" style="color:var(--text-secondary)">s004</span>
+        <span class="mono" style="color:var(--text-secondary)">s004</span>
         <span class="session-branch" style="color:var(--muted)">clawteam/fd3</span>
-        <span class="session-desc hide-m">Redesign-team agent &mdash; empty workspace</span>
+        <span class="session-desc">Redesign-team agent &mdash; empty workspace</span>
       </div>
 
       <div class="session-row" style="border-left-color:var(--orange)">
         <div class="active-dot yellow"></div>
         <span class="mono" style="color:var(--cyan)">15448</span>
-        <span class="mono hide-m" style="color:var(--text-secondary)">s005</span>
+        <span class="mono" style="color:var(--text-secondary)">s005</span>
         <span class="session-branch" style="color:var(--muted)">clawteam/fd4</span>
-        <span class="session-desc hide-m">Redesign-team agent &mdash; empty workspace</span>
+        <span class="session-desc">Redesign-team agent &mdash; empty workspace</span>
       </div>
 
       <div class="session-row" style="border-left-color:var(--orange)">
         <div class="active-dot yellow"></div>
         <span class="mono" style="color:var(--cyan)">16086</span>
-        <span class="mono hide-m" style="color:var(--text-secondary)">s006</span>
+        <span class="mono" style="color:var(--text-secondary)">s006</span>
         <span class="session-branch" style="color:var(--muted)">clawteam/fd5</span>
-        <span class="session-desc hide-m">Redesign-team agent &mdash; empty workspace</span>
+        <span class="session-desc">Redesign-team agent &mdash; empty workspace</span>
       </div>
 
     </div></div>
@@ -658,55 +660,55 @@ body {
 
       <div class="wt-row" style="border-left-color:var(--purple)">
         <span class="wt-name" style="color:var(--purple)">agent-a1911ee4</span>
-        <span class="wt-desc hide-m">Student appeals pages &mdash; Dark Sequence redesign</span>
+        <span class="wt-desc">Student appeals pages &mdash; Dark Sequence redesign</span>
         <div class="wt-pills"><span class="pill pill-purple">Redesign</span><span class="pill pill-warning">130 behind</span></div>
       </div>
 
       <div class="wt-row" style="border-left-color:var(--purple)">
         <span class="wt-name" style="color:var(--purple)">agent-a446fb38</span>
-        <span class="wt-desc hide-m">Online exam + help pages &mdash; Dark Sequence redesign</span>
+        <span class="wt-desc">Online exam + help pages &mdash; Dark Sequence redesign</span>
         <div class="wt-pills"><span class="pill pill-purple">Redesign</span><span class="pill pill-warning">130 behind</span></div>
       </div>
 
       <div class="wt-row" style="border-left-color:var(--purple)">
         <span class="wt-name" style="color:var(--purple)">agent-aa08e69b</span>
-        <span class="wt-desc hide-m">Billing pages &mdash; Dark Sequence redesign</span>
+        <span class="wt-desc">Billing pages &mdash; Dark Sequence redesign</span>
         <div class="wt-pills"><span class="pill pill-purple">Redesign</span><span class="pill pill-warning">130 behind</span></div>
       </div>
 
       <div class="wt-row" style="border-left-color:var(--purple)">
         <span class="wt-name" style="color:var(--purple)">agent-aaa0710e</span>
-        <span class="wt-desc hide-m">Settings account page &mdash; Dark Sequence redesign</span>
+        <span class="wt-desc">Settings account page &mdash; Dark Sequence redesign</span>
         <div class="wt-pills"><span class="pill pill-purple">Redesign</span><span class="pill pill-warning">130 behind</span></div>
       </div>
 
       <div class="wt-row" style="border-left-color:var(--purple)">
         <span class="wt-name" style="color:var(--purple)">agent-af66e0cd</span>
-        <span class="wt-desc hide-m">API keys page &mdash; Dark Sequence redesign</span>
+        <span class="wt-desc">API keys page &mdash; Dark Sequence redesign</span>
         <div class="wt-pills"><span class="pill pill-purple">Redesign</span><span class="pill pill-warning">130 behind</span></div>
       </div>
 
       <div class="wt-row" style="border-left-color:var(--cyan)">
         <span class="wt-name" style="color:var(--cyan)">cla-37-help-center</span>
-        <span class="wt-desc hide-m">Help center page &mdash; 2 unique commits</span>
+        <span class="wt-desc">Help center page &mdash; 2 unique commits</span>
         <div class="wt-pills"><span class="pill pill-info">Feature</span><span class="pill pill-warning">130 behind</span></div>
       </div>
 
       <div class="wt-row" style="border-left-color:var(--accent)">
         <span class="wt-name" style="color:var(--accent)">cla-75-status-badges</span>
-        <span class="wt-desc hide-m">StatusBadge + CertaintyBadge component fix</span>
+        <span class="wt-desc">StatusBadge + CertaintyBadge component fix</span>
         <div class="wt-pills"><span class="pill pill-success">Fix</span><span class="pill pill-warning">130 behind</span></div>
       </div>
 
       <div class="wt-row" style="border-left-color:var(--accent)">
         <span class="wt-name" style="color:var(--accent)">cla-93-student-perf</span>
-        <span class="wt-desc hide-m">Student Performance table, filters, Edit Grades modal</span>
+        <span class="wt-desc">Student Performance table, filters, Edit Grades modal</span>
         <div class="wt-pills"><span class="pill pill-success">Feature</span><span class="pill pill-success">Up to date</span><span class="pill pill-info">9 untracked</span></div>
       </div>
 
       <div class="wt-row" style="border-left-color:var(--status-error)">
         <span class="wt-name" style="color:var(--status-error)">cla-94-student-result</span>
-        <span class="wt-desc hide-m">Student result audit &mdash; 0 commits, directory deleted</span>
+        <span class="wt-desc">Student result audit &mdash; 0 commits, directory deleted</span>
         <div class="wt-pills"><span class="pill pill-error">Broken</span><span class="pill pill-error">Orphaned ref</span></div>
       </div>
 
