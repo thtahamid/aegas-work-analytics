@@ -495,11 +495,26 @@ body{font-family:'Inter','Helvetica Neue',-apple-system,sans-serif;background:va
         <line x1="760" y1="12" x2="760" y2="20" stroke="#5F636E"/><text x="760" y="9" text-anchor="middle" fill="#8B8F9A" font-size="9" font-weight="600">Apr 9</text>
         <line x1="1100" y1="12" x2="1100" y2="20" stroke="#5F636E"/><text x="1100" y="9" text-anchor="middle" fill="#8B8F9A" font-size="9" font-weight="600">Apr 10</text>
 
+        <!--
+          COORDINATE REFERENCE:
+          main rail        y=50
+          paperclip rail   y=120
+          dev rail         y=198
+          visual-enh rail  y=262
+          billing rail     y=322
+          online-exam rail y=382
+          fd2-fd6 rail     y=442
+          worktrees rail   y=512
+
+          Fork point node: cx=460, cy=50
+          All fork drops start from fork point (460,50) bottom edge = (460,57)
+          All merge-up lines end AT the target rail y, not above/below
+        -->
+
         <!-- ═══ RAIL 1: main (y=50) ═══ -->
         <text x="14" y="42" fill="#2EC4A0" font-size="10" font-weight="700">main</text>
         <line x1="100" y1="50" x2="520" y2="50" stroke="#2EC4A0" stroke-width="2.5" opacity=".5"/>
         <line x1="520" y1="50" x2="1320" y2="50" stroke="#2EC4A0" stroke-width="1" opacity=".15" stroke-dasharray="6,6"/>
-        <!-- commits -->
         <circle cx="140" cy="50" r="4" fill="#2EC4A0"/><text x="140" y="68" text-anchor="middle" fill="#8B8F9A" font-size="7">PR #1</text>
         <circle cx="210" cy="50" r="3" fill="#2EC4A0" opacity=".6"/>
         <circle cx="280" cy="50" r="4" fill="#2EC4A0"/><text x="280" y="68" text-anchor="middle" fill="#8B8F9A" font-size="7">api-integ</text>
@@ -507,13 +522,23 @@ body{font-family:'Inter','Helvetica Neue',-apple-system,sans-serif;background:va
         <circle cx="460" cy="50" r="7" fill="none" stroke="#FBBF24" stroke-width="2.5"/>
         <circle cx="460" cy="50" r="3" fill="#FBBF24"/>
         <text x="460" y="38" text-anchor="middle" fill="#FBBF24" font-size="9" font-weight="700">fba7144</text>
-        <text x="460" y="68" text-anchor="middle" fill="#8B8F9A" font-size="8">fork point</text>
+        <!-- Tag below -->
+        <rect x="430" y="60" width="60" height="14" rx="3" fill="rgba(251,191,36,.1)"/>
+        <text x="460" y="70" text-anchor="middle" fill="#FBBF24" font-size="7" font-weight="600">fork point</text>
+
+        <!-- ═══ FORK DROPS (drawn BEFORE rails so rails render on top) ═══ -->
+        <!-- Fork → paperclip (x=472, green solid) -->
+        <path d="M460,57 L460,82 L472,82 L472,120" stroke="#2EC4A0" stroke-width="2" fill="none" marker-end="url(#ga1)"/>
+        <!-- Fork → dev (x=434, gray dashed) -->
+        <path d="M460,57 L460,82 L434,82 L434,198" stroke="#8B8F9A" stroke-width="1.5" fill="none" stroke-dasharray="4,3" marker-end="url(#ga1)"/>
+        <!-- Fork → visual-enh (x=420, cyan dashed) -->
+        <path d="M460,57 L460,82 L420,82 L420,262" stroke="#5DD4F5" stroke-width="1.5" fill="none" stroke-dasharray="5,3" opacity=".7" marker-end="url(#gc1)"/>
+        <!-- Fork → worktrees (x=448, purple dashed) -->
+        <path d="M460,57 L460,82 L448,82 L448,512" stroke="#9B7FFC" stroke-width="1.5" fill="none" stroke-dasharray="5,4" opacity=".5" marker-end="url(#gp1)"/>
 
         <!-- ═══ RAIL 2: paperclip-dev (y=120) ═══ -->
         <text x="14" y="112" fill="#2EC4A0" font-size="10" font-weight="700">paperclip</text>
-        <line x1="460" y1="120" x2="1280" y2="120" stroke="#2EC4A0" stroke-width="3" opacity=".6"/>
-        <!-- Fork drop from main: straight down, clear column at x=460 -->
-        <path d="M460,57 L460,78 Q460,84 466,84 L466,84 Q472,84 472,90 L472,114" stroke="#2EC4A0" stroke-width="2" fill="none" marker-end="url(#ga1)"/>
+        <line x1="472" y1="120" x2="1280" y2="120" stroke="#2EC4A0" stroke-width="3" opacity=".6"/>
 
         <!-- Commits on paperclip-dev -->
         <circle cx="490" cy="120" r="3" fill="#2EC4A0" opacity=".5"/>
@@ -525,98 +550,105 @@ body{font-family:'Inter','Helvetica Neue',-apple-system,sans-serif;background:va
         <circle cx="740" cy="120" r="3" fill="#2EC4A0"/>
         <circle cx="790" cy="120" r="5" fill="#2EC4A0" filter="url(#gg)"/><text x="790" y="140" text-anchor="middle" fill="#2EC4A0" font-size="7" font-weight="600">grading pipeline</text>
 
-        <!-- fd merges (purple dots) -->
+        <!-- fd merges (purple dots) at y=120 -->
         <circle cx="850" cy="120" r="4" fill="#9B7FFC"/><circle cx="870" cy="120" r="4" fill="#9B7FFC"/>
         <circle cx="890" cy="120" r="4" fill="#9B7FFC"/><circle cx="910" cy="120" r="4" fill="#9B7FFC"/>
         <circle cx="935" cy="120" r="4" fill="#9B7FFC"/><circle cx="955" cy="120" r="4" fill="#9B7FFC"/>
         <text x="900" y="140" text-anchor="middle" fill="#9B7FFC" font-size="7" font-weight="600">fd2-fd6 merges</text>
 
-        <!-- E2E -->
+        <!-- E2E tests -->
         <circle cx="1020" cy="120" r="4" fill="#F472B6"/><text x="1020" y="140" text-anchor="middle" fill="#F472B6" font-size="7" font-weight="600">E2E tests</text>
-        <!-- cla-52 -->
+        <!-- cla-52 merge -->
         <circle cx="1060" cy="120" r="4" fill="#9B7FFC"/><text x="1060" y="140" text-anchor="middle" fill="#9B7FFC" font-size="7">cla-52</text>
 
         <!-- origin/paperclip-dev marker -->
         <circle cx="1100" cy="120" r="5" fill="none" stroke="#FBBF24" stroke-width="2" stroke-dasharray="3,2"/>
         <text x="1100" y="108" text-anchor="middle" fill="#FBBF24" font-size="8" font-weight="600">origin/paperclip-dev</text>
 
-        <!-- CLA fixes -->
+        <!-- CLA fix commits (unpushed) -->
         <circle cx="1140" cy="120" r="3" fill="#FBBF24"/><circle cx="1160" cy="120" r="3" fill="#FBBF24"/>
         <circle cx="1180" cy="120" r="3" fill="#FBBF24"/><circle cx="1200" cy="120" r="3" fill="#FBBF24"/>
-        <text x="1170" y="108" text-anchor="middle" fill="#FBBF24" font-size="7" font-weight="600">CLA bug fixes (17 unpushed)</text>
+        <rect x="1118" y="96" width="104" height="14" rx="3" fill="rgba(251,191,36,.1)"/>
+        <text x="1170" y="106" text-anchor="middle" fill="#FBBF24" font-size="7" font-weight="600">17 unpushed commits</text>
 
         <!-- HEAD -->
         <circle cx="1280" cy="120" r="8" fill="none" stroke="#2EC4A0" stroke-width="2.5"/>
         <circle cx="1280" cy="120" r="3.5" fill="#2EC4A0" filter="url(#gg)"/>
-        <text x="1280" y="108" text-anchor="middle" fill="#2EC4A0" font-size="10" font-weight="800">HEAD</text>
+        <rect x="1260" y="96" width="40" height="14" rx="3" fill="rgba(46,196,160,.12)"/>
+        <text x="1280" y="106" text-anchor="middle" fill="#2EC4A0" font-size="8" font-weight="800">HEAD</text>
         <text x="1280" y="148" text-anchor="middle" fill="#2EC4A0" font-size="8" font-weight="600">a5f1cce</text>
         <circle cx="1280" cy="120" r="12" fill="none" stroke="#2EC4A0" stroke-opacity=".08"><animate attributeName="stroke-opacity" values=".04;.22;.04" dur="2.5s" repeatCount="indefinite"/><animate attributeName="r" values="11;15;11" dur="2.5s" repeatCount="indefinite"/></circle>
 
-        <!-- Working copy -->
+        <!-- Working copy box (connected from HEAD) -->
+        <path d="M1288,120 L1296,120" stroke="#FBBF24" stroke-width="1.5" stroke-dasharray="3,2" opacity=".6"/>
         <rect x="1296" y="108" width="38" height="24" rx="4" fill="rgba(251,191,36,.06)" stroke="#FBBF24" stroke-opacity=".4" stroke-dasharray="3,2"/>
         <text x="1315" y="122" text-anchor="middle" fill="#FBBF24" font-size="8" font-weight="600">WC</text>
 
-        <!-- ═══ RAIL 3: dev (y=195) ═══ -->
-        <text x="14" y="190" fill="#8B8F9A" font-size="9" font-weight="600">dev</text>
-        <line x1="460" y1="198" x2="760" y2="198" stroke="#8B8F9A" stroke-width="1.5" opacity=".5"/>
-        <!-- Fork: drops from fork point column, right-angle to avoid main rail text -->
-        <path d="M460,68 L460,80 Q460,86 454,86 L440,86 Q434,86 434,92 L434,192" stroke="#8B8F9A" stroke-width="1.5" fill="none" stroke-dasharray="4,3" marker-end="url(#ga1)"/>
-        <circle cx="720" cy="198" r="4" fill="#8B8F9A"/><text x="720" y="214" text-anchor="middle" fill="#8B8F9A" font-size="7">8a07e28</text>
-        <!-- Merge up to paperclip: L-shape routed at x=738 (between rails) -->
-        <path d="M738,198 L738,152 L738,126" stroke="#8B8F9A" stroke-width="1.5" fill="none" stroke-dasharray="4,3" opacity=".5" marker-end="url(#ga1)"/>
+        <!-- ═══ MERGE LINES (all connect node-to-rail precisely) ═══ -->
 
-        <!-- ═══ RAIL 4: visual-enhancements (y=260) ═══ -->
-        <text x="14" y="255" fill="#5DD4F5" font-size="9" font-weight="600">visual-enh</text>
-        <line x1="460" y1="262" x2="710" y2="262" stroke="#5DD4F5" stroke-width="2" opacity=".5"/>
-        <!-- Fork: separate column x=420 to avoid overlap -->
-        <path d="M460,68 L460,80 Q460,86 454,86 L420,86 Q414,86 414,92 L414,256" stroke="#5DD4F5" stroke-width="1.5" fill="none" stroke-dasharray="5,3" opacity=".6" marker-end="url(#gc1)"/>
-        <!-- 30 commits as density bar -->
+        <!-- dev(720) merge → paperclip rail at y=120. L-shape: up from node, then horizontal to x=738, then up to rail -->
+        <path d="M720,194 L720,158 L738,158 L738,120" stroke="#8B8F9A" stroke-width="1.5" fill="none" stroke-dasharray="4,3" opacity=".5" marker-end="url(#ga1)"/>
+
+        <!-- visual-enh end → dev rail at y=198. From end of rail at x=700 -->
+        <path d="M700,262 L714,262 L714,198" stroke="#5DD4F5" stroke-width="1.5" fill="none" opacity=".6" marker-end="url(#gc1)"/>
+
+        <!-- billing fork: from dev node(680) down to billing rail y=322 -->
+        <path d="M680,202 L680,322" stroke="#F472B6" stroke-width="1.5" fill="none" stroke-dasharray="4,3" opacity=".6" marker-end="url(#gk1)"/>
+        <!-- billing merge: from end of billing(770) up to dev rail y=198 -->
+        <path d="M784,322 L784,198" stroke="#F472B6" stroke-width="1.5" fill="none" opacity=".5" marker-end="url(#gk1)"/>
+
+        <!-- online-exam merge: from end(790) up to dev rail y=198 -->
+        <path d="M808,382 L808,198" stroke="#FBBF24" stroke-width="1.5" fill="none" opacity=".5" marker-end="url(#go1)"/>
+
+        <!-- fd2-fd6 merge: from group center(900) L-shape up to paperclip y=120 -->
+        <path d="M900,438 L900,420 L986,420 L986,120" stroke="#9B7FFC" stroke-width="2" fill="none" opacity=".6" marker-end="url(#gp1)"/>
+
+        <!-- cla-93: from paperclip node at (1200,120) down to worktree rail y=512 -->
+        <path d="M1200,124 L1200,512" stroke="#2EC4A0" stroke-width="2" fill="none" stroke-dasharray="5,3" opacity=".5" marker-end="url(#ga1)"/>
+
+        <!-- ═══ RAIL 3: dev (y=198) ═══ -->
+        <text x="14" y="192" fill="#8B8F9A" font-size="9" font-weight="600">dev</text>
+        <line x1="434" y1="198" x2="760" y2="198" stroke="#8B8F9A" stroke-width="1.5" opacity=".5"/>
+        <circle cx="720" cy="198" r="4" fill="#8B8F9A"/>
+        <text x="720" y="216" text-anchor="middle" fill="#8B8F9A" font-size="7">8a07e28</text>
+        <circle cx="680" cy="198" r="3" fill="#8B8F9A" opacity=".5"/>
+
+        <!-- ═══ RAIL 4: visual-enhancements (y=262) ═══ -->
+        <text x="14" y="256" fill="#5DD4F5" font-size="9" font-weight="600">visual-enh</text>
+        <line x1="420" y1="262" x2="710" y2="262" stroke="#5DD4F5" stroke-width="2" opacity=".5"/>
         <rect x="470" y="258" width="220" height="8" rx="4" fill="rgba(93,212,245,.15)"/>
-        <rect x="470" y="258" width="220" height="8" rx="4" fill="url(#none)" stroke="#5DD4F5" stroke-opacity=".3"/>
+        <rect x="470" y="258" width="220" height="8" rx="4" fill="none" stroke="#5DD4F5" stroke-opacity=".3"/>
         <text x="580" y="280" text-anchor="middle" fill="#5DD4F5" font-size="8">30 style commits (Tasks 1-22)</text>
-        <!-- Merge up to dev: routed at x=710, no crossing -->
-        <path d="M700,262 L710,262 L710,204" stroke="#5DD4F5" stroke-width="1.5" fill="none" opacity=".6" marker-end="url(#gc1)"/>
 
-        <!-- ═══ RAIL 5: billing (y=320) ═══ -->
-        <text x="14" y="316" fill="#F472B6" font-size="9" font-weight="600">billing</text>
+        <!-- ═══ RAIL 5: billing (y=322) ═══ -->
+        <text x="14" y="318" fill="#F472B6" font-size="9" font-weight="600">billing</text>
         <line x1="680" y1="322" x2="800" y2="322" stroke="#F472B6" stroke-width="2" opacity=".5"/>
-        <!-- Fork from dev area -->
-        <path d="M680,214 L680,316" stroke="#F472B6" stroke-width="1.5" fill="none" stroke-dasharray="4,3" opacity=".5" marker-end="url(#gk1)"/>
         <circle cx="710" cy="322" r="3" fill="#F472B6" opacity=".6"/>
         <circle cx="730" cy="322" r="3" fill="#F472B6" opacity=".7"/>
         <circle cx="750" cy="322" r="3" fill="#F472B6" opacity=".8"/>
         <circle cx="770" cy="322" r="4" fill="#F472B6"/>
         <text x="740" y="340" text-anchor="middle" fill="#F472B6" font-size="7">5 billing commits</text>
-        <!-- Merge up: routed at x=780, clear path -->
-        <path d="M784,322 L784,204" stroke="#F472B6" stroke-width="1.5" fill="none" opacity=".5" marker-end="url(#gk1)"/>
 
-        <!-- ═══ RAIL 6: online-exam (y=380) ═══ -->
-        <text x="14" y="376" fill="#FBBF24" font-size="9" font-weight="600">online-exm</text>
+        <!-- ═══ RAIL 6: online-exam (y=382) ═══ -->
+        <text x="14" y="378" fill="#FBBF24" font-size="9" font-weight="600">online-exm</text>
         <line x1="700" y1="382" x2="820" y2="382" stroke="#FBBF24" stroke-width="2" opacity=".5"/>
         <circle cx="770" cy="382" r="4" fill="#FBBF24"/>
         <text x="770" y="400" text-anchor="middle" fill="#FBBF24" font-size="7">Features 3,4,7</text>
-        <!-- Merge up: at x=808, avoids billing merge at 784 -->
-        <path d="M808,382 L808,204" stroke="#FBBF24" stroke-width="1.5" fill="none" opacity=".5" marker-end="url(#go1)"/>
 
-        <!-- ═══ RAIL 7: fd2-fd6 ClawTeam (y=440) ═══ -->
-        <text x="14" y="436" fill="#9B7FFC" font-size="9" font-weight="600">fd2-fd6</text>
+        <!-- ═══ RAIL 7: fd2-fd6 ClawTeam (y=442) ═══ -->
+        <text x="14" y="438" fill="#9B7FFC" font-size="9" font-weight="600">fd2-fd6</text>
         <line x1="820" y1="442" x2="970" y2="442" stroke="#9B7FFC" stroke-width="2" opacity=".5"/>
-        <!-- 5 commits, labels BELOW -->
         <circle cx="840" cy="442" r="4" fill="#9B7FFC"/><text x="840" y="460" text-anchor="middle" fill="#9B7FFC" font-size="7">fd2</text>
         <circle cx="870" cy="442" r="4" fill="#9B7FFC"/><text x="870" y="460" text-anchor="middle" fill="#9B7FFC" font-size="7">fd3</text>
         <circle cx="900" cy="442" r="4" fill="#9B7FFC"/><text x="900" y="460" text-anchor="middle" fill="#9B7FFC" font-size="7">fd4</text>
         <circle cx="930" cy="442" r="4" fill="#9B7FFC"/><text x="930" y="460" text-anchor="middle" fill="#9B7FFC" font-size="7">fd5</text>
         <circle cx="960" cy="442" r="4" fill="#9B7FFC"/><text x="960" y="460" text-anchor="middle" fill="#9B7FFC" font-size="7">fd6</text>
-        <!-- Single merge line from group midpoint up to paperclip rail -->
-        <path d="M900,436 L900,420 L986,420 L986,126" stroke="#9B7FFC" stroke-width="2" fill="none" opacity=".6" marker-end="url(#gp1)"/>
 
-        <!-- ═══ RAIL 8: unmerged worktrees (y=510) ═══ -->
-        <text x="14" y="505" fill="#9B7FFC" font-size="9" font-weight="600">worktrees</text>
-        <line x1="460" y1="512" x2="1280" y2="512" stroke="#9B7FFC" stroke-width="1.5" stroke-dasharray="6,4" opacity=".3"/>
-        <!-- Fork drop from fork point, separate column x=448 -->
-        <path d="M460,68 L460,80 Q460,86 454,86 L448,86 Q442,86 442,92 L442,506" stroke="#9B7FFC" stroke-width="1.5" fill="none" stroke-dasharray="5,4" opacity=".4" marker-end="url(#gp1)"/>
+        <!-- ═══ RAIL 8: unmerged worktrees (y=512) ═══ -->
+        <text x="14" y="507" fill="#9B7FFC" font-size="9" font-weight="600">worktrees</text>
+        <line x1="448" y1="512" x2="1280" y2="512" stroke="#9B7FFC" stroke-width="1.5" stroke-dasharray="6,4" opacity=".35"/>
 
-        <!-- 5 agent worktrees (purple dashed) -->
+        <!-- 5 agent worktrees -->
         <circle cx="500" cy="512" r="4" fill="#9B7FFC" opacity=".6"/>
         <circle cx="530" cy="512" r="4" fill="#9B7FFC" opacity=".6"/>
         <circle cx="560" cy="512" r="4" fill="#9B7FFC" opacity=".6"/>
@@ -624,26 +656,23 @@ body{font-family:'Inter','Helvetica Neue',-apple-system,sans-serif;background:va
         <circle cx="620" cy="512" r="4" fill="#9B7FFC" opacity=".6"/>
         <text x="560" y="530" text-anchor="middle" fill="#9B7FFC" font-size="8">5 agent-* redesign (stale, 130 behind)</text>
 
-        <!-- cla-37 (cyan) -->
+        <!-- cla-37 -->
         <circle cx="700" cy="512" r="4" fill="#5DD4F5"/>
         <text x="700" y="530" text-anchor="middle" fill="#5DD4F5" font-size="7" font-weight="600">cla-37 help</text>
 
-        <!-- cla-75 (green) -->
+        <!-- cla-75 -->
         <circle cx="800" cy="512" r="4" fill="#2EC4A0"/>
         <text x="800" y="530" text-anchor="middle" fill="#2EC4A0" font-size="7" font-weight="600">cla-75 badges</text>
 
-        <!-- cla-94 BROKEN (red) -->
+        <!-- cla-94 BROKEN -->
         <circle cx="920" cy="512" r="4" fill="none" stroke="#EF4444" stroke-width="2" stroke-dasharray="2,2"/>
         <text x="920" y="530" text-anchor="middle" fill="#EF4444" font-size="7" font-weight="600">cla-94 BROKEN</text>
-        <!-- X -->
         <line x1="912" y1="505" x2="918" y2="519" stroke="#EF4444" stroke-width="2" opacity=".7"/>
         <line x1="918" y1="505" x2="912" y2="519" stroke="#EF4444" stroke-width="2" opacity=".7"/>
 
-        <!-- cla-93 (green, at HEAD — branch from paperclip-dev near HEAD) -->
+        <!-- cla-93 at HEAD -->
         <circle cx="1200" cy="512" r="5" fill="#2EC4A0" filter="url(#gg)"/>
         <text x="1200" y="530" text-anchor="middle" fill="#2EC4A0" font-size="8" font-weight="700">cla-93 perf (at HEAD)</text>
-        <!-- Drop from paperclip near HEAD, own clear column x=1200 -->
-        <path d="M1200,148 L1200,506" stroke="#2EC4A0" stroke-width="2" fill="none" stroke-dasharray="5,3" opacity=".5" marker-end="url(#ga1)"/>
 
         <!-- Working copy detail -->
         <rect x="1260" y="540" width="70" height="34" rx="5" fill="rgba(251,191,36,.04)" stroke="#FBBF24" stroke-opacity=".3" stroke-dasharray="4,3"/>
@@ -651,10 +680,16 @@ body{font-family:'Inter','Helvetica Neue',-apple-system,sans-serif;background:va
         <text x="1295" y="566" text-anchor="middle" fill="#8B8F9A" font-size="7">17 mod, 10+ new</text>
 
         <!-- ═══ ANIMATED PARTICLES ═══ -->
-        <circle r="4" fill="#2EC4A0" filter="url(#gg)" class="pt" style="offset-path:path('M460,120 L1280,120')"><animate attributeName="r" values="3;6;3" dur="2.4s" repeatCount="indefinite"/></circle>
-        <circle r="3" fill="#9B7FFC" filter="url(#gg)" class="pt s" style="offset-path:path('M900,436 L900,420 L986,420 L986,126');animation-delay:.6s"><animate attributeName="r" values="2;4;2" dur="3.8s" repeatCount="indefinite"/></circle>
+        <!-- Along paperclip-dev rail -->
+        <circle r="4" fill="#2EC4A0" filter="url(#gg)" class="pt" style="offset-path:path('M472,120 L1280,120')"><animate attributeName="r" values="3;6;3" dur="2.4s" repeatCount="indefinite"/></circle>
+        <!-- fd merge up to paperclip -->
+        <circle r="3" fill="#9B7FFC" filter="url(#gg)" class="pt s" style="offset-path:path('M900,438 L900,420 L986,420 L986,120');animation-delay:.6s"><animate attributeName="r" values="2;4;2" dur="3.8s" repeatCount="indefinite"/></circle>
+        <!-- Unpushed commits flow -->
         <circle r="3" fill="#FBBF24" filter="url(#gg)" class="pt" style="offset-path:path('M1100,120 L1280,120');animation-delay:1.2s"><animate attributeName="r" values="2;5;2" dur="2.4s" repeatCount="indefinite"/></circle>
-        <circle r="3" fill="#5DD4F5" filter="url(#gg)" class="pt s" style="offset-path:path('M700,262 L710,262 L710,204');animation-delay:.9s"/>
+        <!-- visual-enh merge to dev -->
+        <circle r="3" fill="#5DD4F5" filter="url(#gg)" class="pt s" style="offset-path:path('M700,262 L714,262 L714,198');animation-delay:.9s"/>
+        <!-- Fork drop to paperclip -->
+        <circle r="3" fill="#2EC4A0" filter="url(#gg)" class="pt" style="offset-path:path('M460,57 L460,82 L472,82 L472,120');animation-delay:1.8s"/>
 
       </svg>
     </div>
